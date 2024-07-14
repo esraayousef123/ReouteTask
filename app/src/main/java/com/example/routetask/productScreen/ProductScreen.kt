@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -55,6 +57,7 @@ class ProductScreenActivity : ComponentActivity() {
         setContent {
             ProductScreen(productViewModel)
             productViewModel.getProduct()
+
 
         }
     }
@@ -117,16 +120,30 @@ fun ProductScreen(productViewModel: ProductViewModel) {
                 modifier = Modifier.padding(10.dp)
             )
         }
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (productViewModel.isLoading.value) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center)
+                )}
+            else{
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.padding(10.dp),
+                    content = {
+                        items(productViewModel.productList) { product ->
+                            ProductCard(product,productViewModel)
+                        }
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.padding(10.dp),
-            content = {
-                items(productViewModel.productList) { product ->
-                    ProductCard(product,productViewModel)
-                }
+                    })
 
-            })
+
+
+            }
+
+        }
+
+
+
+
 
 
     }
@@ -137,7 +154,9 @@ fun ProductCard(product: ProductsItem?,productViewModel: ProductViewModel) {
     Card(
         modifier = Modifier
             .padding(5.dp)
-            .padding(5.dp).border(2.dp, FadedStrokeColor, RoundedCornerShape(8.dp))
+
+            .padding(5.dp)
+            .border(2.dp, FadedStrokeColor, RoundedCornerShape(8.dp))
         ,
         shape = RoundedCornerShape(15.dp)
     ) {

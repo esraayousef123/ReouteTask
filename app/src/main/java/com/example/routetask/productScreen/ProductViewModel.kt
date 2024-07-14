@@ -12,10 +12,12 @@ import kotlinx.coroutines.launch
 class ProductViewModel: ViewModel() {
     val textInSearchBar =mutableStateOf("")
     var productList = mutableStateListOf<ProductsItem?>()
+    var isLoading = mutableStateOf(false)
 
 
     fun getProduct(){
         viewModelScope.launch {
+            isLoading.value = true
             try {
                 val productResponse =
                     RetrofitObject.apiInterfaceImplementationByRetrofit().getProducts()
@@ -24,6 +26,8 @@ class ProductViewModel: ViewModel() {
                     productList.clear()
                     productList.addAll(productResponse.products)
                     Log.e("ProductViewModel", "Product list size: ${productList.size}")
+                    isLoading.value = false
+
 
                 }
 
