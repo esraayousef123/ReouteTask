@@ -1,7 +1,8 @@
 package com.example.routetask.Model.Api
 
 data class Response(
-	val metadata: Metadata? = null,
-	val data: List<DataItem?>? = null,
-	val results: Int? = null
+	val total: Int? = null,
+	val limit: Int? = null,
+	val skip: Int? = null,
+	val products: List<ProductsItem?>? = null
 )

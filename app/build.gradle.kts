@@ -66,4 +66,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0") // retrofit
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0") // retrofit converter for serialization and de serialization or covert jason to kotlin and oppisit
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0") // logging interceptor to print the request and the response in the logcat
+    implementation("io.coil-kt:coil-compose:2.1.0")
 }
