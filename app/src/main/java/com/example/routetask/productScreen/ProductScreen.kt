@@ -43,20 +43,26 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.routetask.Model.Api.ProductsItem
 import com.example.routetask.R
 import coil.compose.AsyncImage
 import com.example.routetask.ui.theme.DerkBlue
 import com.example.routetask.ui.theme.FadedStrokeColor
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class ProductScreenActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val productViewModel: ProductViewModel by viewModels()
+        //val productViewModel: ProductViewModel by viewModels()
 
         super.onCreate(savedInstanceState)
         setContent {
-            ProductScreen(productViewModel)
+            val productViewModel : ProductViewModel=  hiltViewModel()
             productViewModel.getProduct()
+            ProductScreen(productViewModel)
+
 
 
         }

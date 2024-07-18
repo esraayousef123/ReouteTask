@@ -5,26 +5,29 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newsapp.API.RetrofitObject
 import com.example.routetask.Model.Api.ProductsItem
-import com.example.routetask.Repository.BringDataFromApiImp
-import kotlinx.coroutines.launch
+import com.example.routetask.ProductRepository.ProductFromApiRepository
 
-class ProductViewModel : ViewModel() {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+@HiltViewModel
+class ProductViewModel @Inject constructor(
+    private val repository: ProductFromApiRepository
+) : ViewModel() {
     val textInSearchBar = mutableStateOf("")
+
+
     var productList = mutableStateListOf<ProductsItem?>()
     var isLoading = mutableStateOf(false)
-
 
     fun getProduct() {
         viewModelScope.launch {
             isLoading.value = true
             productList.clear()
-            productList.addAll(BringDataFromApiImp().bringProductFromApi())
+            productList.addAll(repository.getProduct())
             Log.e("ProductViewModel", "Product list size: ${productList.size}")
             isLoading.value = false
-
-
         }
     }
 
@@ -36,9 +39,5 @@ class ProductViewModel : ViewModel() {
         }
         val finalPrice = original - (original * (discount / 100))
         return String.format("%.2f", finalPrice)
-
-
     }
-
-
 }
